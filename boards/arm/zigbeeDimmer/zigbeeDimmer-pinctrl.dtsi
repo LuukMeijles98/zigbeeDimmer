@@ -1,0 +1,23 @@
+/*
+ * Copyright (c) 2021 Argentum Systems Ltd.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <dt-bindings/pinctrl/samr30e-pinctrl.h>
+
+&pinctrl {
+	tcc0_default: tcc0_default {
+		group1 {
+			//pinmux = <PA19F_TCC0_WO3>;
+			pinmux = <PA18F_TCC0_WO2>;
+		};
+	};
+
+	sercom2_default: sercom2_default {
+		group1 {
+			pinmux = <PA14C_SERCOM2_PAD2>,
+				 <PA15C_SERCOM2_PAD3>;
+		};
+	};
+};

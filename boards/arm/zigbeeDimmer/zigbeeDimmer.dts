@@ -1,0 +1,50 @@
+/*
+ * Copyright (c) 2021 Argentum Systems Ltd.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+#include <atmel/samr30.dtsi>
+#include "zigbeeDimmer-pinctrl.dtsi"
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+/ {
+	model = "zigbeeDimmer";
+	compatible = "luuk,zigbeeDimmer", "atmel,samr30e18", "atmel,samr30";
+
+	chosen {
+		zephyr,console = &sercom2;
+		zephyr,shell-uart = &sercom2;
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+	};
+
+	/* These aliases are provided for compatibility with samples */
+	aliases {
+		led0 = &led0;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		led0: led_0 {
+			gpios = <&porta 27 GPIO_ACTIVE_LOW>;
+			label = "Red LED";
+		};
+	};
+};
+
+&cpu0 {
+	clock-frequency = <48000000>;
+};
+
+&sercom2 {
+	status = "okay";
+	compatible = "atmel,sam0-uart";
+	current-speed = <115200>;
+	rxpo = <0>;
+	txpo = <1>;
+
+	pinctrl-0 = <&sercom2_default>;
+	pinctrl-names = "default";
+};
