@@ -3,44 +3,55 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <zephyr/kernel.h>
-#include <zephyr/drivers/sensor.h>
+#include <stdio.h>
 #include <app_version.h>
+#include <zephyr/kernel.h>
+#include <zephyr/sys/printk.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/pwm.h>
 
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
 
-int main(void)
-{
+#define SLEEP_TIME_MS 1000
+#define PWM_PERIOD 20000
+
+static const struct gpio_dt_spec led0 = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
+static const struct pwm_dt_spec pwm_led0 = PWM_DT_SPEC_GET(DT_ALIAS(pwm_led0));
+
+int main(void){
+	printk("Starting src")	
+	
 	int ret;
-	const struct device *sensor;
 
-	printk("Zephyr Example Application %s\n", APP_VERSION_STRING);
+	if (!gpio_is_ready_dt(&led)) {
+		printk("Error: DBG led is not ready");
+		return 0;
+	}
 
-	sensor = DEVICE_DT_GET(DT_NODELABEL(examplesensor0));
-	if (!device_is_ready(sensor)) {
-		LOG_ERR("Sensor not ready");
+	if (!pwm_is_ready_dt(&pwm_led0)) {
+		printk("Error: PWM device %s is not ready\n",
+		       pwm_led0.dev->name);
+		return 0;
+	}
+
+	ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
+	if (ret < 0) {
+		return 0;
+	}
+
+	ret = pwm_set_dt(&pwm_led0, PWM_PERIOD, PWM_PERIOD / 2U);
+	if (ret) {
+		printk("Error %d: failed to set pulse width\n", ret);
 		return 0;
 	}
 
 	while (1) {
-		struct sensor_value val;
-
-		ret = sensor_sample_fetch(sensor);
+		ret = gpio_pin_toggle_dt(&led);
 		if (ret < 0) {
-			LOG_ERR("Could not fetch sample (%d)", ret);
 			return 0;
 		}
-
-		ret = sensor_channel_get(sensor, SENSOR_CHAN_PROX, &val);
-		if (ret < 0) {
-			LOG_ERR("Could not get sample (%d)", ret);
-			return 0;
-		}
-
-		printk("Sensor value: %d\n", val.val1);
-
-		k_sleep(K_MSEC(1000));
+		k_msleep(SLEEP_TIME_MS);
 	}
 
 	return 0;

@@ -9,8 +9,7 @@
 &pinctrl {
 	tcc0_default: tcc0_default {
 		group1 {
-			//pinmux = <PA19F_TCC0_WO3>;
-			pinmux = <PA18F_TCC0_WO2>;
+			pinmux = <PA19F_TCC0_WO3>;
 		};
 	};
 
