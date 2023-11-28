@@ -46,7 +46,7 @@ int configLeds(){
 	return 1;
 }
 
-void toggleLed(struct k_timer *dummy){
+int toggleLed(struct k_timer *dummy){
 		int ret = gpio_pin_toggle_dt(&led0);
 		if (ret < 0) {
 			return 0;
@@ -57,7 +57,7 @@ void toggleLed(struct k_timer *dummy){
 K_TIMER_DEFINE(my_timer, toggleLed, NULL);
 
 int main(void){
-	printk("Starting led dimmer")	
+	printk("Starting led dimmer\n");
 
 	if(!configLeds()){
 		printk("An error occured while configuring the LEDs\n");
