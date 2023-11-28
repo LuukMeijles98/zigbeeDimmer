@@ -22,7 +22,7 @@
 
 	aliases {
 		led0 = &led0;
-		pwm_led0 = &pwm_led0
+		pwm-led0 = &pwm_led0;
 	};
 
 	leds {
@@ -53,5 +53,16 @@
 	txpo = <1>;
 
 	pinctrl-0 = <&sercom2_default>;
+	pinctrl-names = "default";
+};
+
+&tcc0 {
+	status = "okay";
+	compatible = "atmel,sam0-tcc-pwm";
+	/* Gives a maximum period of 1.4s */
+	prescaler = <4>;
+	#pwm-cells = <2>;
+
+	pinctrl-0 = <&tcc0_default>;
 	pinctrl-names = "default";
 };
