@@ -15,4 +15,6 @@ supported:
   - gpio
   - pwm
   - uart
+  - spi
+  - ieee802154
 vendor: luuk
