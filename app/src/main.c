@@ -14,6 +14,8 @@ LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
 /* led functions */
 extern int configLeds(void);
 extern void toggleLed(struct k_timer *dummy);
+extern int setPwm(uint32_t pwm_ds);
+
 K_TIMER_DEFINE(dbg_led_timer, toggleLed, NULL);
 
 int main(void){
@@ -26,6 +28,11 @@ int main(void){
 	k_timer_start(&dbg_led_timer, K_SECONDS(1), K_SECONDS(1));
 
 	while (1) {
+		setPwm((unsigned int) 25);
+		k_msleep(1000);
+		setPwm((unsigned int) 50);
+		k_msleep(1000);
+		setPwm((unsigned int) 75);
 		k_msleep(1000);
 	}
 

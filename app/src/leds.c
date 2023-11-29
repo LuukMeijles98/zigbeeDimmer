@@ -1,3 +1,4 @@
+#include <math.h>
 #include <zephyr/kernel.h>
 #include <zephyr/sys/printk.h>
 #include <zephyr/drivers/gpio.h>
@@ -42,4 +43,15 @@ void toggleLed(struct k_timer *dummy){
 		if (ret < 0) {
             printk("Error: Cant toggle debug led\n");
 		}
+}
+
+int setPwm(uint32_t pwm_ds){
+    int ret, pwm_pulse;
+    pwm_pulse = round(PWM_PERIOD * pwm_ds);
+    ret = pwm_set_cycles(pwm_led0.dev, pwm_led0.channel, PWM_PERIOD, pwm_pulse, pwm_led0.flags);
+    if(ret){
+        printk("Error %d: failed to set pulse width\n", ret);
+        return 0;
+    }
+    return 1;
 }
