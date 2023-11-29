@@ -19,4 +19,13 @@
 				 <PA15C_SERCOM2_PAD3>;
 		};
 	};
+
+	sercom4_default: sercom4_spi_default {
+		group1 {
+			pinmux = <PC19F_SERCOM4_PAD0>,
+				 <PB31F_SERCOM4_PAD1>,
+				 <PB30F_SERCOM4_PAD2>,
+				 <PC18F_SERCOM4_PAD3>;
+		};
+	};
 };
