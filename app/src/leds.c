@@ -36,6 +36,10 @@ int configLeds(void){
 		return 0;
 	}
 
+	printk("PWM channel = %u\n", pwm_led0.channel);
+	printk("PWM period = %u\n", pwm_led0.period);
+	printk("PWM flags = %u\n", pwm_led0.flags);
+
 	return 1;
 }
 
