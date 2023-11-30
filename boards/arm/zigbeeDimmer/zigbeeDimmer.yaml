@@ -11,9 +11,9 @@ toolchain:
   - gnuarmemb
   - xtools
 supported:
-  - counter
   - gpio
+  - netif
   - pwm
-  - uart
   - spi
+  - uart
 vendor: luuk
