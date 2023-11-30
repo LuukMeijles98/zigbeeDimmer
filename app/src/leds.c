@@ -51,8 +51,9 @@ void toggleLed(struct k_timer *dummy){
 }
 
 int setPwm(uint32_t pwm_ds){
-    int ret, pwm_pulse;
-    pwm_pulse = round(PWM_PERIOD * pwm_ds);
+    int ret;
+	uint32_t pwm_pulse;
+    pwm_pulse = (unsigned) round((PWM_PERIOD * pwm_ds)/100);
     ret = pwm_set_cycles(pwm_led0.dev, pwm_led0.channel, PWM_PERIOD, pwm_pulse, pwm_led0.flags);
     if(ret){
         printk("Error %d: failed to set pulse width\n", ret);
