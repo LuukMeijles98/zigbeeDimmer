@@ -37,7 +37,7 @@
 	pwmleds {
 		compatible = "pwm-leds";
 		pwm_led0: pwm_led_0 {
-			pwms = <&tcc0 3 PWM_MSEC(20)>;
+			pwms = <&tcc0 3 PWM_MSEC(20)>;	//nog inverterende flags?
 		};
 	};
 };
